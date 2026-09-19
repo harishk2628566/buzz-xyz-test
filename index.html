@@ -5,15 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Buzz Dashboard</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class' };
+  // Apply saved theme before paint to avoid a flash of the wrong theme.
+  if (localStorage.getItem('buzz-theme') === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+</script>
 <style>
   body { font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif; }
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100 transition-colors">
   <div class="flex h-screen overflow-hidden">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col">
+    <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col dark:bg-slate-900 dark:border-r dark:border-slate-800">
       <div class="h-16 flex items-center justify-center gap-2 text-xl font-bold text-white border-b border-slate-800">
         <span>🐝</span> Buzz
       </div>
@@ -43,14 +50,22 @@
     <div class="flex-1 flex flex-col overflow-y-auto">
 
       <!-- Top header -->
-      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 flex-shrink-0">
-        <h1 class="text-lg font-semibold text-slate-900">Dashboard</h1>
+      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 flex-shrink-0 dark:bg-slate-900 dark:border-slate-800">
+        <h1 class="text-lg font-semibold text-slate-900 dark:text-white">Dashboard</h1>
         <div class="flex items-center gap-4">
           <input
             type="text"
             placeholder="Search..."
-            class="hidden sm:block w-56 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition"
+            class="hidden sm:block w-56 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:bg-slate-800"
           />
+          <button
+            id="theme-toggle"
+            type="button"
+            aria-label="Toggle dark theme"
+            class="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center text-base hover:bg-slate-100 transition dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700"
+          >
+            <span id="theme-icon">🌙</span>
+          </button>
           <div class="w-9 h-9 rounded-full bg-amber-500 text-white flex items-center justify-center font-semibold shadow-sm">
             H
           </div>
@@ -60,47 +75,47 @@
       <!-- Widget cards -->
       <main class="p-6 space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow">
-            <p class="text-sm font-medium text-slate-500">Active Tasks</p>
-            <p class="text-3xl font-bold mt-2 text-slate-900">24</p>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Tasks</p>
+            <p class="text-3xl font-bold mt-2 text-slate-900 dark:text-white">24</p>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow">
-            <p class="text-sm font-medium text-slate-500">Open Issues</p>
-            <p class="text-3xl font-bold mt-2 text-slate-900">7</p>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Open Issues</p>
+            <p class="text-3xl font-bold mt-2 text-slate-900 dark:text-white">7</p>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow">
-            <p class="text-sm font-medium text-slate-500">Team Members</p>
-            <p class="text-3xl font-bold mt-2 text-slate-900">5</p>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Team Members</p>
+            <p class="text-3xl font-bold mt-2 text-slate-900 dark:text-white">5</p>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow">
-            <p class="text-sm font-medium text-slate-500">Uptime</p>
-            <p class="text-3xl font-bold mt-2 text-emerald-600">99.9%</p>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Uptime</p>
+            <p class="text-3xl font-bold mt-2 text-emerald-600 dark:text-emerald-400">99.9%</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 lg:col-span-2">
-            <h2 class="font-semibold text-slate-900 mb-4">Recent Activity</h2>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 lg:col-span-2 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="font-semibold text-slate-900 mb-4 dark:text-white">Recent Activity</h2>
             <ul class="space-y-3 text-sm">
-              <li class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <span>Repo <code class="px-1.5 py-0.5 bg-slate-100 rounded text-xs">buzz-xyz-test</code> cloned</span>
+              <li class="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
+                <span>Repo <code class="px-1.5 py-0.5 bg-slate-100 rounded text-xs dark:bg-slate-800">buzz-xyz-test</code> cloned</span>
                 <span class="text-slate-400 text-xs">2m ago</span>
               </li>
-              <li class="flex justify-between items-center border-b border-slate-100 pb-3">
+              <li class="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
                 <span>Dashboard scaffold created</span>
                 <span class="text-slate-400 text-xs">just now</span>
               </li>
               <li class="flex justify-between items-center">
                 <span>UX polish pass completed</span>
-                <span class="inline-flex items-center gap-1 text-emerald-600 text-xs font-medium">
+                <span class="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-xs font-medium">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> done
                 </span>
               </li>
             </ul>
           </div>
 
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
-            <h2 class="font-semibold text-slate-900 mb-4">Team</h2>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="font-semibold text-slate-900 mb-4 dark:text-white">Team</h2>
             <ul class="space-y-3 text-sm">
               <li class="flex items-center gap-2"><span>🐝</span> <span>Pollen — Lead Developer</span></li>
               <li class="flex items-center gap-2"><span>🍯</span> <span>Honey — UX Designer</span></li>
@@ -111,5 +126,22 @@
       </main>
     </div>
   </div>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const root = document.documentElement;
+
+    function syncIcon() {
+      icon.textContent = root.classList.contains('dark') ? '☀️' : '🌙';
+    }
+    syncIcon();
+
+    toggle.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('buzz-theme', root.classList.contains('dark') ? 'dark' : 'light');
+      syncIcon();
+    });
+  </script>
 </body>
 </html>
