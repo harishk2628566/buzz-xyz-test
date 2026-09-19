@@ -14,6 +14,19 @@
 </script>
 <style>
   body { font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif; }
+
+  /* Entrance: elements with .reveal fade up in order of their --i index. */
+  @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .reveal { animation: reveal .5s cubic-bezier(.22,1,.36,1) backwards; animation-delay: calc(var(--i, 0) * 70ms); }
+
+  /* Theme switch: cross-fade colors everywhere, only while switching (so hovers stay snappy). */
+  .theme-anim, .theme-anim * { transition: background-color .35s ease, border-color .35s ease, color .35s ease !important; }
+  @keyframes spin-in { from { transform: rotate(-180deg) scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+  .spin-in { display: inline-block; animation: spin-in .4s cubic-bezier(.22,1,.36,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100 transition-colors">
@@ -28,16 +41,16 @@
         <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-amber-500/10 text-amber-400 font-medium ring-1 ring-amber-500/30">
           <span>📊</span> Dashboard
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-1 transition">
           <span>📁</span> Projects
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-1 transition">
           <span>✅</span> Tasks
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-1 transition">
           <span>👥</span> Team
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-1 transition">
           <span>⚙️</span> Settings
         </a>
       </nav>
@@ -50,7 +63,7 @@
     <div class="flex-1 flex flex-col overflow-y-auto">
 
       <!-- Top header -->
-      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 flex-shrink-0 dark:bg-slate-900 dark:border-slate-800">
+      <header style="--i:0" class="reveal h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 flex-shrink-0 dark:bg-slate-900 dark:border-slate-800">
         <h1 class="text-lg font-semibold text-slate-900 dark:text-white">Dashboard</h1>
         <div class="flex items-center gap-4">
           <input
@@ -75,26 +88,26 @@
       <!-- Widget cards -->
       <main class="p-6 space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md hover:-translate-y-1 transition duration-200 dark:bg-slate-900 dark:border-slate-800 reveal" style="--i:1">
             <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Tasks</p>
             <p class="text-3xl font-bold mt-2 text-slate-900 dark:text-white">24</p>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md hover:-translate-y-1 transition duration-200 dark:bg-slate-900 dark:border-slate-800 reveal" style="--i:2">
             <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Open Issues</p>
             <p class="text-3xl font-bold mt-2 text-slate-900 dark:text-white">7</p>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md hover:-translate-y-1 transition duration-200 dark:bg-slate-900 dark:border-slate-800 reveal" style="--i:3">
             <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Team Members</p>
             <p class="text-3xl font-bold mt-2 text-slate-900 dark:text-white">5</p>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow dark:bg-slate-900 dark:border-slate-800">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md hover:-translate-y-1 transition duration-200 dark:bg-slate-900 dark:border-slate-800 reveal" style="--i:4">
             <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Uptime</p>
             <p class="text-3xl font-bold mt-2 text-emerald-600 dark:text-emerald-400">99.9%</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 lg:col-span-2 dark:bg-slate-900 dark:border-slate-800">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 lg:col-span-2 dark:bg-slate-900 dark:border-slate-800 reveal" style="--i:5">
             <h2 class="font-semibold text-slate-900 mb-4 dark:text-white">Recent Activity</h2>
             <ul class="space-y-3 text-sm">
               <li class="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
@@ -114,7 +127,7 @@
             </ul>
           </div>
 
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 dark:bg-slate-900 dark:border-slate-800">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 dark:bg-slate-900 dark:border-slate-800 reveal" style="--i:6">
             <h2 class="font-semibold text-slate-900 mb-4 dark:text-white">Team</h2>
             <ul class="space-y-3 text-sm">
               <li class="flex items-center gap-2"><span>🐝</span> <span>Pollen — Lead Developer</span></li>
@@ -138,9 +151,14 @@
     syncIcon();
 
     toggle.addEventListener('click', () => {
+      root.classList.add('theme-anim');
+      setTimeout(() => root.classList.remove('theme-anim'), 400);
       root.classList.toggle('dark');
       localStorage.setItem('buzz-theme', root.classList.contains('dark') ? 'dark' : 'light');
       syncIcon();
+      icon.classList.remove('spin-in');
+      void icon.offsetWidth; // restart the animation on repeat clicks
+      icon.classList.add('spin-in');
     });
   </script>
 </body>
